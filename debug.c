@@ -25,20 +25,20 @@ void printFileHexa(char *file, size_t size){
 	lala = (char *)file;
   for (size_t i = 0; i < 64; i++)
 	{
-		if (i == 0) printf("Elf64_Ehdr\n 16 byte e_ident: ");
-		if (i == 16) printf("2 byte e_type: ");
-		if (i == 18) printf("2 byte e_machine: ");
-		if (i == 20) printf("4 byte e_version: ");
-		if (i == 24) printf("8 byte e_entry: ");
-		if (i == 32) printf("8 byte e_phoff: ");
-		if (i == 40) printf("8 byte e_shoff: ");
-		if (i == 48) printf("4 byte e_flags: ");
-		if (i == 52) printf("2 byte e_ehsize: ");
-		if (i == 54) printf("2 byte e_phentsize: ");
-		if (i == 56) printf("2 byte e_phnum: ");
-		if (i == 58) printf("2 byte e_shentsize: ");
-		if (i == 60) printf("2 byte e_shnum: ");
-		if (i == 62) printf("2 byte e_shstrndx: ");
+		if (i == 0) printf("Elf64_Ehdr\n16 byte e_ident: ");
+		else if (i == 16) printf("2 byte e_type: ");
+		else if (i == 18) printf("2 byte e_machine: ");
+		else if (i == 20) printf("4 byte e_version: ");
+		else if (i == 24) printf("8 byte e_entry: ");
+		else if (i == 32) printf("8 byte e_phoff: ");
+		else if (i == 40) printf("8 byte e_shoff: ");
+		else if (i == 48) printf("4 byte e_flags: ");
+		else if (i == 52) printf("2 byte e_ehsize: ");
+		else if (i == 54) printf("2 byte e_phentsize: ");
+		else if (i == 56) printf("2 byte e_phnum: ");
+		else if (i == 58) printf("2 byte e_shentsize: ");
+		else if (i == 60) printf("2 byte e_shnum: ");
+		else if (i == 62) printf("2 byte e_shstrndx: ");
 		if (lala[i] < 16)
 			printf("0");
     printf("%x ", lala[i]);
@@ -47,32 +47,48 @@ void printFileHexa(char *file, size_t size){
 				i == 61 || i == 63) printf("\n");
 	}
 	printf("\n");
-	printf("Print section header\n");
+	printf("L'entête de programme\n");
 	nb = (size_t)file[52];
 	nb2 = (size_t)((file[40]*(file[58] + file[60])));
 	for (size_t i = nb; i < (size_t)(file[52] + file[54]); i++){
 		if (i == nb) printf("4 bytes p_type: ");
-		if (i == nb + 4) printf("4 bytes p_flags: ");
-		if (i == nb + 8) printf("4 bytes p_offset: ");
-		if (i == nb + 16) printf("8 bytes p_vaddr: ");
-		if (i == nb + 24) printf("8 bytes p_paddr: ");
-		if (i == nb + 32) printf("8 bytes p_filesz: ");
-		if (i == nb + 40) printf("8 bytes p_memsz: ");
-		if (i == nb + 48) printf("8 bytes p_align: ");
+		else if (i == nb + 4) printf("4 bytes p_flags: ");
+		else if (i == nb + 8) printf("4 bytes p_offset: ");
+		else if (i == nb + 16) printf("8 bytes p_vaddr: ");
+		else if (i == nb + 24) printf("8 bytes p_paddr: ");
+		else if (i == nb + 32) printf("8 bytes p_filesz: ");
+		else if (i == nb + 40) printf("8 bytes p_memsz: ");
+		else if (i == nb + 48) printf("8 bytes p_align: ");
 		if (lala[i] < 16) printf("0");
 		printf("%x ", file[i]);
-		if (i == nb + 3) printf("\n");
-		if (i == nb + 7) printf("\n");
-		if (i == nb + 15) printf("\n");
-		if (i == nb + 23) printf("\n");
-		if (i == nb + 31) printf("\n");
-		if (i == nb + 39) printf("\n");
-		if (i == nb + 47) printf("\n");
-		if (i == nb + 55) printf("\n");
+		if (i == nb + 3 || i == nb + 7 || i == nb + 15 || i == nb + 23 || i == nb + 31 ||
+			i == nb + 39 || i == nb + 47 || i == nb + 55){printf("\n");}
 	}
 	printf("\n");
+	printf("L'entête de section\n");
 	for (size_t i = nb2 ; i < nb2 + 64; i++){
+		if (i == nb2) {printf("4 bytes sh_name: ");}
+		else if (i == nb2 + 4) {printf("4 bytes sh_type: ");}
+		else if (i == nb2 + 8) {printf("8 bytes sh_flags: ");}
+		if (i == nb2 + 16) {printf("8 bytes sh_addr: ");}
+		if (i == nb2 + 24) {printf("8 bytes sh_offset: ");}
+		if (i == nb2 + 32) {printf("8 bytes sh_size: ");}
+		if (i == nb2 + 40) {printf("4 bytes sh_link: ");}
+		if (i == nb2 + 44) {printf("4 bytes sh_info: ");}
+		if (i == nb2 + 48) {printf("8 bytes sh_addralign: ");}
+		if (i == nb2 + 56) {printf("8 bytes sh_entsize: ");}
+		if (lala[i] < 16) {printf("0");}
 		printf("%x ", file[i]);
+		if (i == nb2 + 3) {printf("\n");}
+		if (i == nb2 + 7) {printf("\n");}
+		if (i == nb2 + 15) {printf("\n");}
+		if (i == nb2 + 23) {printf("\n");}
+		if (i == nb2 + 31) {printf("\n");}
+		if (i == nb2 + 39) {printf("\n");}
+		if (i == nb2 + 43) {printf("\n");}
+		if (i == nb2 + 47) {printf("\n");}
+		if (i == nb2 + 55) {printf("\n");}
+		if (i == nb2 + 63) {printf("\n");}
 	}
 	printf("\n");
 	printf("%ld", nb2);
