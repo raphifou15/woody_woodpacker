@@ -18,7 +18,7 @@ int		ft_error_arg(char *udp, char *nfile);
 void	ft_error_no_executable(char *file);
 void	ft_error_no_right_to_read(char *file);
 void	ft_error_wrong_header(char *file);
-void	check_if_file_correct(char *file, void *file_memory);
+void	woody(char *file, void *file_memory);
 
 
 // FOCTION DE DEBUG //

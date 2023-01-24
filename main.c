@@ -1,32 +1,56 @@
 #include "./woodyWoodPacker.h"
 
-void	check_if_file_correct(char *file, void *file_memory){
+void	woody(char *file, void *file_memory){
 	struct stat	sb;
 	int			fd;
+	int			fd2;
 	Elf64_Ehdr	*hdr;
-	char		*hdr2;
+	//char		*hdr2;
 
 	if (!(stat(file, &sb) == 0 && sb.st_mode & S_IXUSR))
 		ft_error_no_executable(file);
 	printStats(&sb);
 	if ((fd = open(file, O_RDONLY)) < 0)
 		ft_error_no_right_to_read(file);
-	if ((hdr2 = malloc(sizeof(char) * sb.st_size + 1)) == NULL)
+	//if ((hdr2 = malloc(sizeof(char) * sb.st_size + 1)) == NULL)
+	//	exit(1);
+	if ((file_memory = mmap(0, sb.st_size, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0)) == MAP_FAILED){
+		printf("Map failed\n");
 		exit(1);
-	file_memory = mmap(0, sb.st_size, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
-	read(fd, hdr2, sb.st_size);
-	hdr2[sb.st_size] = '\0';
-	close(fd);
+	}
+	//read(fd, hdr2, sb.st_size);
+	//hdr2[sb.st_size] = '\0';
 	printFileHexa(file_memory, sb.st_size); //debug
-	printFileHexa(hdr2, sb.st_size); //debug
+	//printFileHexa(hdr2, sb.st_size); //debug
 	hdr = (Elf64_Ehdr *)file_memory;
 	printHeader(hdr); //debug
 	if (!(strncmp((char *)hdr, ELFMAG, SELFMAG) == 0 && hdr->e_ident[4] == ELFCLASS64))
 		ft_error_wrong_header(file);
 	//e_type : identifie le type de fichier. ex : un exécutable ou un fichier objet partagé
 	// du coup mettre une protection
-	free(hdr2);
-	munmap(file_memory, sb.st_size);
+
+	// parcourir le nombre de segment d'un fichier elf64 //
+	Elf64_Phdr	*segPhdr = (Elf64_Phdr *)((unsigned char *)(hdr) + (unsigned int)hdr->e_phoff);
+	for (int i = 0; i < (int)hdr->e_phnum; i++){
+		printf("i = %d\n", i);
+		printf("segment p_type: %d\n", segPhdr->p_type);
+	}
+
+
+	void *lala = malloc((size_t)sb.st_size);
+	memcpy(lala, file_memory,(size_t)sb.st_size);
+
+
+
+	if (!(fd2 = open("Woody", O_RDWR | O_CREAT | O_TRUNC, 0777))){
+		exit(1);
+	}
+	write(fd2, lala, (size_t)sb.st_size + 1);
+	close(fd);
+	close(fd2);
+	free(lala);
+	munmap(file_memory, sb.st_size + 1);
+
 }
 
 int	main(int ac, char *av[]) {
@@ -35,7 +59,7 @@ int	main(int ac, char *av[]) {
 	file_memory = NULL;
 	if (ac != 2)
 		return ft_error_arg(UDP, av[0]);
-	check_if_file_correct(av[1], file_memory);
+	woody(av[1], file_memory);
 	return 0;
 }
 

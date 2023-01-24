@@ -30,18 +30,18 @@ void printFileHexa(char *file, size_t size){
 		else if (i == 18) printf("2 byte e_machine: ");
 		else if (i == 20) printf("4 byte e_version: ");
 		else if (i == 24) printf("8 byte e_entry: ");
-		else if (i == 32) printf("8 byte e_phoff: ");
+		else if (i == 32) printf("8 byte e_phoff: %uunsigned int ", lala[32]);
 		else if (i == 40) printf("8 byte e_shoff: ");
 		else if (i == 48) printf("4 byte e_flags: ");
 		else if (i == 52) printf("2 byte e_ehsize: ");
-		else if (i == 54) printf("2 byte e_phentsize: ");
-		else if (i == 56) printf("2 byte e_phnum: ");
+		else if (i == 54) printf("2 byte e_phentsize: %dint ", lala[54]); // Ce champ contient la taille en octets d'une entrée de la table d'entête de programme ; toutes les entrées ont la même taille.
+		else if (i == 56) printf("2 byte e_phnum: %dint ", lala[56]); // nombre de segments Ce champ contient le nombre d'entrées de la table d'entête de programme. Ainsi, la taille en octets de la table pourra être obtenue en multipliant e_phentsize par e_phnum. Si le fichier ne contient pas d'entête de programme, e_phnum contiendra la valeur zéro.
 		else if (i == 58) printf("2 byte e_shentsize: ");
 		else if (i == 60) printf("2 byte e_shnum: ");
 		else if (i == 62) printf("2 byte e_shstrndx: ");
 		if (lala[i] < 16)
 			printf("0");
-    printf("%x ", lala[i]);
+    	printf("%x ", lala[i]);
 		if (i == 15 || i == 17 || i == 19 || i == 23 || i == 31 || i == 39 ||
 				i == 47 || i == 51 || i == 53 || i == 55 || i == 57 || i == 59 ||
 				i == 61 || i == 63) printf("\n");
@@ -53,10 +53,10 @@ void printFileHexa(char *file, size_t size){
 	for (size_t i = nb; i < (size_t)(file[52] + file[54]); i++){
 		if (i == nb) printf("4 bytes p_type: ");
 		else if (i == nb + 4) printf("4 bytes p_flags: ");
-		else if (i == nb + 8) printf("4 bytes p_offset: ");
+		else if (i == nb + 8) printf("4 bytes p_offset: "); // Ce champ contient le décalage du premier octet du segment par rapport au début du fichier.
 		else if (i == nb + 16) printf("8 bytes p_vaddr: ");
 		else if (i == nb + 24) printf("8 bytes p_paddr: ");
-		else if (i == nb + 32) printf("8 bytes p_filesz: ");
+		else if (i == nb + 32) printf("8 bytes p_filesz: "); // Ce champ contient la taille en octets de l'image fichier de ce segment. Il peut être égal à zéro
 		else if (i == nb + 40) printf("8 bytes p_memsz: ");
 		else if (i == nb + 48) printf("8 bytes p_align: ");
 		if (lala[i] < 16) printf("0");
