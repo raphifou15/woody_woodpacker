@@ -33,7 +33,15 @@ void	woody(char *file, void *file_memory){
 	Elf64_Phdr	*segPhdr = (Elf64_Phdr *)((unsigned char *)(hdr) + (unsigned int)hdr->e_phoff);
 	for (int i = 0; i < (int)hdr->e_phnum; i++){
 		printf("i = %d\n", i);
-		printf("segment p_type: %d\n", segPhdr->p_type);
+		if (segPhdr->p_type == 1 && (segPhdr->p_flags == 1 || segPhdr->p_flags == 3 || segPhdr->p_flags == 5)){
+			printf("found PT_LOAD avec des droits d'execution\n");
+		}
+		printf("segment p_type: %x\n", segPhdr->p_type);
+		printf("segment p_flags: %d\n", segPhdr->p_flags);
+		printf("segment p_filesz: %ld\n", segPhdr->p_filesz);
+		printf("segment p_memsz: %ld\n", segPhdr->p_memsz);
+		printf("segment p_offset: %ld\n", segPhdr->p_offset);
+		segPhdr = (Elf64_Phdr *)((unsigned char *)(segPhdr) + (unsigned int)(hdr->e_phentsize));
 	}
 
 
