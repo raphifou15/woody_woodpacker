@@ -14,17 +14,17 @@
 # define UDP "utilisation du programme: "
 # define NFILE "woody_woodpacker"
 
-int		ft_error_arg(char *udp, char *nfile);
-void	ft_error_no_executable(char *file);
-void	ft_error_no_right_to_read(char *file);
-void	ft_error_wrong_header(char *file);
-void	woody(char *file, void *file_memory);
+// int		ft_error_arg(char *udp, char *nfile);
+// void	ft_error_no_executable(char *file);
+// void	ft_error_no_right_to_read(char *file);
+// void	ft_error_wrong_header(char *file);
+// void	woody(char *file, void *file_memory);
 
 
-// FOCTION DE DEBUG //
+// // FOCTION DE DEBUG //
 
-void	printStats(struct stat *sb);
-void	printHeader(Elf64_Ehdr  *hdr);
-void	printFileHexa(char *file, size_t size);
+// void	printStats(struct stat *sb);
+// void	printHeader(Elf64_Ehdr  *hdr);
+// void	printFileHexa(char *file, size_t size);
 
 #endif
